@@ -61,3 +61,85 @@ int round(double x, char c) {
     return (c == 'd') ? (int)x - 1 : (int)x;
   }
 }
+int max(int arr[], int n) {
+  int max = arr[0];
+  for (int i = 1; i < n; ++i) {
+    if (arr[i] > max)
+      max = arr[i];
+  }
+  return max;
+}
+
+int min(int arr[], int n) {
+  int min = arr[0];
+  for (int i = 1; i < n; ++i) {
+    if (arr[i] < min)
+      min = arr[i];
+  }
+  return min;
+}
+
+bool all(bool arr[], int n) {
+  for (int i = 0; i < n; ++i) {
+    if (!arr[i])
+      return false;
+  }
+  return true;
+}
+
+bool any(bool arr[], int n) {
+  for (int i = 0; i < n; ++i) {
+    if (arr[i])
+      return true;
+  }
+  return false;
+}
+
+int frequency(int arr[], int n, int x) {
+  int count = 0;
+  for (int i = 0; i < n; ++i) {
+    if (arr[i] == x)
+      count++;
+  }
+  return count;
+}
+
+long sum(int arr[], int n) {
+  long sum = 0;
+  for (int i = 0; i < n; ++i)
+    sum += arr[i];
+  return sum;
+}
+
+int index(char str[], char substr[]) {
+  int i = 0;
+  int j = 0;
+  while (str[i] != '\0') {
+    if (substr[j] == '\0')
+      return i - j;
+    if (str[i] == substr[j])
+      ++j;
+    else
+      j = 0;
+    ++i;
+  }
+  if (substr[j] == '\0')
+    return i - j;
+  return -1;
+}
+
+bool is_sorted(int arr[], int n) {
+  if (n <= 2)
+    return true;
+  else {
+    int increasing = 1, decreasing = 1;
+    for (int i = 0; i < (n - 1); ++i) {
+      if (arr[i] <= arr[i + 1])
+        ++increasing;
+
+      if (arr[i] >= arr[i + 1])
+        ++decreasing;
+    }
+    return (increasing == n || decreasing == n);
+  }
+}
