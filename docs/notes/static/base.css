@@ -1,0 +1,92 @@
+body {
+  font-family: 'Roboto';
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto Slab';
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+h1 {
+  font-size: 5em;
+}
+
+h2 {
+  font-size: 3em;
+}
+
+h3 {
+  font-size: 2em;
+}
+
+p {
+  font-size: 1.5em;
+}
+
+li {
+  font-size: 1.4em;
+}
+
+a {
+  color: #0738be;
+  text-decoration: none;
+}
+
+pre code {
+  font-family: "Roboto Mono";
+  background: #dedede;
+  border-radius: 5px;
+  padding: 1em;
+  display: block;
+}
+
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table * {
+  border: 1px solid black;
+  padding: .4em;
+}
+
+.pull-left {
+  float: left;
+  width: 47%;
+}
+
+.pull-right {
+  float: right;
+  width: 47%;
+}
+
+.two-columns {
+  -webkit-columns: 2;
+          columns: 2;
+  -webkit-column-gap: 2em;
+          column-gap: 2em;
+}
+
+.footnote {
+  position: absolute;
+  bottom: 3em;
+}
+
+.array * {
+  text-align: center;
+}
+
+.array th {
+  font-size: 2.2em;
+}
+
+.MathJax {
+  font-size: 2.5em;
+}
+/*# sourceMappingURL=base.css.map */

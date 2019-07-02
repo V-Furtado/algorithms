@@ -1,0 +1,99 @@
+$background: #ffffff;
+$text: #000000;
+$link: #0738be;
+
+$code-background: darken($background, 13%);
+$code-highlighted: darken($background, 5%);
+
+body {
+  font-family: 'Roboto';
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto Slab';
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+h1 {
+  font-size: 5em;
+}
+
+h2 {
+  font-size: 3em;
+}
+
+h3 {
+  font-size: 2em;
+}
+
+p {
+  font-size: 1.5em;
+}
+
+li {
+  font-size: 1.4em;
+}
+
+a {
+  color: $link;
+  text-decoration: none;
+}
+
+pre code {
+  font-family: "Roboto Mono";
+  background: $code-background;
+  border-radius: 5px;
+  padding: 1em;
+  display: block;
+}
+
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+
+  * {
+    border: 1px solid black;
+    padding: .4em;
+  }
+
+}
+
+.pull-left {
+  float: left;
+  width: 47%;
+}
+
+.pull-right {
+  float: right;
+  width: 47%;
+}
+
+.two-columns {
+  columns: 2;
+  column-gap: 2em;
+}
+
+.footnote {
+  position: absolute;
+  bottom: 3em;
+}
+
+.array {
+  * {
+    text-align: center;
+  }
+
+  th {
+    font-size: 2.2em;
+  }
+}
+
+.MathJax {
+  font-size: 2.5em;
+}

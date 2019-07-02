@@ -1,0 +1,39 @@
+dist: xenial
+language:
+  - cpp
+compiler:
+  - gcc
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-8
+      - g++-8
+
+matrix:
+  include:
+    - name: "All"
+      env:
+      - TARGET=all
+    - name: "Strings"
+      env: 
+      - TARGET=String
+    - name: "Functions"
+      env:
+      - TARGET=functions RECURSIVE=true
+      - TARGET=functions RECURSIVE=false
+    - name: "Sorts"
+      env:
+      - TARGET=sorts
+    - name: "LinkedList"
+      env:
+      - TARGET=SLL
+      - TARGET=CSLL
+      - TARGET=DLL
+      - TARGET=CDLL
+    - name: "Two Stacks"
+      -TARGET=twostack
+
+script:
+  - make $TARGET
