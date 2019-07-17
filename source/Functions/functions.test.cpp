@@ -353,22 +353,123 @@ TEST_CASE("reverse") {
     reverse(arr4);
     for (int i = 0; i < 4; ++i)
       CHECK(arr4[i] == arr5[i]);
+
+    char arr[] = "12";
+    reverse(arr);
+    CHECK(arr[0] == '2');
   }
 }
 
 TEST_CASE("Binary Search") {
-  int arr[100];
-  for (int i = 0; i < 100; ++i)
-    arr[i] = i;
+  int n = 100;
+  int arr[n];
+  for (int i = 0; i < n; ++i)
+    arr[i] = 2 * i;
   SUBCASE("Key is present") {
-    REQUIRE_EQ(binsearch(arr, 100, 50), 50);
-    REQUIRE_EQ(binsearch(arr, 100, 0), 0);
-    REQUIRE_EQ(binsearch(arr, 100, 99), 99);
-    REQUIRE_EQ(binsearch(arr, 25, 25), 25);
+    for (int i = 0; i < n; ++i)
+      CHECK_EQ(binsearch(arr, n, 2 * i), i);
   }
   SUBCASE("Key is not preset") {
-    REQUIRE_EQ(binsearch(arr, 100, 100), -1);
-    REQUIRE_EQ(binsearch(arr, 100, -1), -1);
-    REQUIRE_EQ(binsearch(arr, 100, 1000), -1);
+    for (int i = 0; i < n; ++i)
+      CHECK_EQ(binsearch(arr, n, 2 * i + 1), -1);
   }
+}
+
+TEST_CASE("Copy") {
+  SUBCASE("Array") {
+    int A[] = {1, 2, 3, 4, 5};
+    int B[10];
+    copy(A, B, 5);
+    for (int i = 0; i < 5; ++i)
+      CHECK_EQ(B[i], A[i]);
+  }
+}
+
+TEST_CASE("Swap") {
+  int a = 5;
+  int b = 10;
+  swap(&a, &b);
+  CHECK_EQ(a, 10);
+  CHECK_EQ(b, 5);
+}
+
+TEST_CASE("MERGE") {
+  int arr1[1] = {1};
+  int arr2[2] = {2, 1};
+  int arr3[5] = {4, 5, 1, 2, 3};
+  int arr4[10] = {23, 41, 54, 64, 92, 28, 35, 40, 81, 82};
+  int arr4_sorted[10] = {23, 28, 35, 40, 41, 54, 64, 81, 82, 92};
+  int arr5[10] = {1, 1, 2, 3, 3, 1, 2, 2, 2, 3};
+  int arr5_sorted[10] = {1, 1, 1, 2, 2, 2, 2, 3, 3, 3};
+  int arr6[5] = {1, 3, 2, 4, 5};
+
+  merge(arr1, 1, 1 / 2);
+  CHECK(arr1[0] == 1);
+
+  merge(arr2, 2, 2 / 2);
+  CHECK(arr2[0] == 1);
+  CHECK(arr2[1] == 2);
+
+  merge(arr3, 5, 5 / 2);
+  for (int j = 0; j < 5; ++j) {
+    CHECK(arr3[j] == j + 1);
+  }
+
+  merge(arr4, 10, 10 / 2);
+  for (int j = 0; j < 10; ++j) {
+    CHECK(arr4[j] == arr4_sorted[j]);
+  }
+
+  merge(arr5, 10, 10 / 2);
+  for (int j = 0; j < 10; ++j) {
+    CHECK(arr5[j] == arr5_sorted[j]);
+  }
+
+  merge(arr6, 5, 5 / 2);
+  for (int j = 0; j < 5; ++j) {
+    CHECK(arr6[j] == j + 1);
+  }
+}
+
+TEST_CASE("Partition") {
+  int arr1[1] = {1};
+  int arr2[2] = {2, 1};
+  int arr3[5] = {5, 4, 3, 2, 1};
+  int arr4[10] = {23, 41, 54, 64, 92, 28, 35, 40, 81, 82};
+  int arr5[10] = {1, 1, 2, 3, 3, 1, 2, 2, 2, 3};
+
+  int p1 = partition(arr1, 0, 0);
+  CHECK(p1 == 0);
+  CHECK(arr1[0] == 1);
+
+  partition(arr2, 0, 1);
+  CHECK(arr2[0] == 1);
+  CHECK(arr2[1] == 2);
+
+  int p3 = partition(arr3, 0, 4);
+  for (int i = 0; i < p3; ++i) {
+    CHECK(arr3[i] <= arr3[p3]);
+  }
+  for (int i = p3 + 1; i < 5; ++i) {
+    CHECK(arr3[i] >= arr3[p3]);
+  }
+
+  int p4 = partition(arr4, 0, 9);
+  for (int i = 0; i < p4; ++i) {
+    CHECK(arr4[i] <= arr4[p4]);
+  }
+  for (int i = p4 + 1; i < 10; ++i) {
+    CHECK(arr4[i] >= arr4[p4]);
+  }
+
+  int p5 = partition(arr5, 0, 9);
+  for (int i = 0; i < p5; ++i) {
+    CHECK(arr5[i] <= arr5[p5]);
+  }
+  for (int i = p5 + 1; i < 10; ++i) {
+    CHECK(arr5[i] >= arr5[p5]);
+  }
+  int arr6[] = {-665, -207, -85};
+  partition(arr6, 0, 2);
+  CHECK(arr6[0] == -665);
 }

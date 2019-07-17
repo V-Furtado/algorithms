@@ -16,6 +16,46 @@ char inttochar(int x) {
   return (x >= 0 && x <= 9) ? x + 48 : throw "bad input";
 }
 
+void swap(int* a, int* b) {
+  *a ^= *b;
+  *b ^= *a;
+  *a ^= *b;
+}
+
+void merge(int* arr, int n, int mid) {
+  int* temp = new int[n];
+  copy(arr, temp, n);
+
+  int j = 0;
+  int k = mid;
+  for (int i = 0; i < n; i++) {
+    // If k is consumed, or the element at j is better, take j.
+    if (k >= n || (j < mid && temp[j] <= temp[k]))
+      arr[i] = temp[j++];
+    // Otherwise take k.
+    else
+      arr[i] = temp[k++];
+  }
+  delete[] temp;
+}
+
+int partition(int* arr, int lo, int hi) {
+  int i = lo + 1, j = hi;
+  while (i <= j) {
+    while (i < hi && arr[i] <= arr[lo])
+      i++;
+    while (j > lo && arr[j] >= arr[lo])
+      j--;
+    if (j <= i) {
+      break;
+    }
+    swap(&arr[i], &arr[j]);
+  }
+  if (lo != j)
+    swap(&arr[lo], &arr[j]);
+  return j;
+}
+
 #if RECURSIVE
 /** Recursive Solutions
  *
@@ -211,13 +251,20 @@ int binsearch(int* arr, int lo, int hi, int key) {
     if (arr[mid] == key)
       return mid;
     else
-      return (arr[mid] < key) ? binsearch(arr, mid, hi, key)
-                              : binsearch(arr, lo, mid, key);
+      return (arr[mid] < key) ? binsearch(arr, mid + 1, hi, key)
+                              : binsearch(arr, lo, mid - 1, key);
   }
 }
 
 int binsearch(int* arr, int n, int key) {
   return binsearch(arr, 0, n, key);
+}
+
+void copy(int* A, int* B, int n) {
+  if (!n)
+    return;
+  B[0] = A[0];
+  return copy(A + 1, B + 1, n - 1);
 }
 #else
 /** Iterative Solutions
@@ -270,14 +317,14 @@ int round(double x, char c) {
 }
 
 int stringtoint(char string[]) {
-  int len = strlen(string);
   int out = 0;
-
-  for (int i = 0; i < len; ++i) {
-    out += chartoint(string[len - i - 1]) * pow(10, i);
+  int len = strlen(string) - 1;
+  for (int i = 0; i <= len; ++i) {
+    if (i == len && string[0] == '-')
+      continue;
+    out += chartoint(string[len - i]) * pow(10, i);
   }
-
-  return out;
+  return (string[0] == '-') ? -1 * out : 1 * out;
 }
 
 int max(int arr[], int n) {
@@ -323,7 +370,7 @@ int frequency(int arr[], int n, int x) {
   return count;
 }
 
-long sum(int arr[], int n) {
+long sum(int* arr, int n) {
   long sum = 0;
   for (int i = 0; i < n; ++i)
     sum += arr[i];
@@ -364,9 +411,7 @@ bool is_sorted(int arr[], int n) {
 }
 
 void reverse(char* arr) {
-  int len;
-  for (len = 0; arr[len] != '\0'; ++len) {
-  }
+  int len = strlen(arr);
   for (int i = 0; i < len / 2; ++i) {
     char tmp = arr[i];
     arr[i] = arr[len - i - 1];
@@ -424,18 +469,25 @@ long fibonacci(int n) {
   return a;
 }
 
+#include <iostream>
 int binsearch(int* arr, int n, int key) {
-  int lo = 0, hi = n;
-  while (lo <= hi) {
-    int idx = lo + (hi - lo) / 2;
-    if (arr[idx] == key)
-      return idx;
-    else if (arr[idx] < key)
+  if (!n)
+    throw "no elements to search";
+
+  int lo = 0, hi = n - 1, idx = n / 2;
+  while (lo < hi && arr[idx] != key) {
+    if (arr[idx] < key)
       lo = idx + 1;
     else
       hi = idx - 1;
+    idx = lo + (hi - lo) / 2;
   }
-  return -1;
+  return (arr[idx] == key) ? idx : -1;
+}
+
+void copy(int* A, int* B, int n) {
+  for (int i = 0; i < n; ++i)
+    B[i] = A[i];
 }
 
 #endif

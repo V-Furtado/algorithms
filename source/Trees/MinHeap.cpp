@@ -1,65 +1,116 @@
 #include "MinHeap.hpp"
 
-Minheap(unsigned int cap);
-~minheap();
-
-void swap(int *a, int *b){
-    int t;
-    t =*a;
-    *a =*b;
-    *b =t
+inline void swap(int* a, int* b) {
+  int temp = *a;
+  *a = *b;
+  *b = temp;
 }
 
+MinHeap::MinHeap(unsigned int cap) {
+  capacity = cap;
+  array = new int[cap + 1];
+  size = 0;
+}
 
-  void MinHeap::swim(){
-     
+MinHeap::~MinHeap() {
+  delete[] array;
+}
+
+int MinHeap::count() {
+  return size;
+}
+
+int MinHeap::peek() {
+  if (!size)
+    throw "Attempted to access empty heap";
+  return array[1];
+}
+
+void MinHeap::swim() {
+  int i = size;
+  while (i > 1 && array[i] < array[i / 2]) {
+    swap(array + i, array + i / 2);
+    i = i / 2;
   }
+}
 
-
- void  MinHeap::sink(int i){
-   
+void MinHeap::sink(int i) {
+  while (2 * i <= size) {
+    int j = 2 * i;
+    if (j < size && array[j] > array[j + 1])
+      j += 1;
+    if (array[i] < array[j])
+      break;
+    swap(array + i, array + j);
+    i = j;
   }
-
- 
-bool MinHeap::search(int i, int data){
-    if(arr[i]==data){
-        return true;
-    }
-    if (i< arr[2*i] && i < arr[(2*i)+1]){
-        return false;
-    }
-    return (search(i+1));
 }
 
-
-void MinHeap::erase(int i, int data){
-    if(arr[i]==data){
-        return erase->data;
-    }
-    if (i< arr[2*i] && i < arr[(2*i)+1]){
-        throw "bad";
-    }
-    return (erase(i+1));
+void MinHeap::push(int data) {
+  if ((unsigned int)size == capacity) {
+    capacity = (capacity + 1) * 2;
+    int* temp = new int[capacity + 1];
+    for (int i = 0; i <= size; ++i)
+      temp[i] = array[i];
+    delete[] array;
+    array = temp;
+  }
+  array[++size] = data;
+  swim();
 }
 
-void MinHeap::push(int data);
+int MinHeap::pop() {
+  if (!size)
+    throw "Attempted to extract from an empty heap";
+  int rval = array[1];
+  array[1] = array[size--];
+  sink(1);
+  return rval;
+}
 
- 
-int MinHeap::count();
+bool MinHeap::search(int data) {
+  return search(1, data);
+}
 
-int MinHeap::pop();
+bool MinHeap::search(int i, int data) {
+  if (i > size)
+    return false;
+  if (data == array[i])
+    return true;
+  if (data < array[i])
+    return false;
+  return search(2 * i, data) || search(2 * i + 1, data);
+}
 
-int  MinHeap::peek();
+int MinHeap::remove(int i) {
+  if (i <= 0 || i > size)
+    throw "Attempted to remove from a heap at an invalid location";
+  int rval = array[i];
+  array[i] = array[size--];
+  sink(i);
+  return rval;
+}
 
- 
-  MinHeap::bool search(int data);
+void MinHeap::erase(int data) {
+  erase(1, data);
+}
 
+void MinHeap::erase(int i, int data) {
+  if (i > size)
+    return;
+  if (data < array[i])
+    return;
+  if (data == array[i]) {
+    remove(i);
+    return;
+  }
+  erase(2 * i, data);
+  erase(2 * i + 1, data);
+}
 
-  MinHeap::int remove(int i);
-
-
-  MinHeap::void erase(int data);
-
- 
-  MinHeap::void print(std::ostream& oss = std::cout);
-};
+void MinHeap::print(std::ostream& oss) {
+  for (int i = 1; i <= size; ++i) {
+    oss << array[i] << ", ";
+  }
+  oss << '\n';
+}

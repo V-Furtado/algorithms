@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef RECURSIVE
-#define RECURSIVE true
+#define RECURSIVE false
 #endif
 
 /** Absolute Value.
@@ -79,7 +79,10 @@ bool all(bool arr[], int n);
  * Returns whether or not any element is true.
  * O(?)
  */
-bool any(bool arr[], int n);
+template <class T>
+bool any(T* arr, unsigned int n) {
+  return n == 0 ? false : arr[0] || any(arr + 1, n - 1);
+}
 
 /** Frequency of x.
  * Returns the frequency of x in the given array.
@@ -91,7 +94,10 @@ int frequency(int arr[], int n, int x);
  * Returns the sum of all elements in the array.
  * O(?)
  */
-long sum(int arr[], int n);
+template <class T>
+long sum(T* arr, unsigned int n) {
+  return n == 0 ? 0 : arr[0] + sum(arr + 1, n - 1);
+}
 
 /** Index.
  * Returns the index of the given substring if found, or -1.
@@ -147,3 +153,17 @@ void reverse(char* arr);
  * Finds a given key in a given sorted array.
  */
 int binsearch(int* arr, int n, int key);
+
+/** Copy Array
+ * Copies an array from A to B
+ */
+void copy(int* A, int* B, int n);
+
+/** Swap */
+void swap(int* a, int* b);
+
+/** Merge */
+void merge(int* arr, int n, int mid);
+
+/** Partition */
+int partition(int* arr, int lo, int hi);
